@@ -1,51 +1,51 @@
 package com.company;
 
-public class Bank implements BankingServices {
-    private String name ;
-    private int id ;
-    private String address ;
-    private String phone ;
-    public int balance ;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-    public void createAccount( int id , String name , String address , String phone,int balance)
+public class  Bank {
+    private String name ;
+    public Bank(String name )
     {
-        this.id = id;
-        this.name = name ;
-        this.address = address ;
-        this.phone = phone;
-        this.balance = balance;
+        setName(name);
     }
-    public int checkBalance()
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void createAccount()
     {
-        return balance;
+        Scanner scanner = new Scanner(System.in);
+        try {
+            //  int id , String name , String address , String phone,int balance
+            System.out.println("Enter account  Id ? ");
+            int id = scanner.nextInt();
+            System.out.println("Enter customer name  ? ");
+            String name = scanner.next();
+            System.out.println("Enter customer address  ? ");
+            String address = scanner.next();
+            System.out.println("Enter customer phone  ? ");
+            String phone = scanner.next();
+            System.out.println("Enter customer balance  ? ");
+            int balance = scanner.nextInt();
+            Account account = new Account(id,name,address,phone,balance);
+            System.out.println(" New Customer Created by Id " + id);
+        }catch(InputMismatchException e )
+        {
+            System.out.println("Sorry !");
+        }
     }
-    public int withdraw(int amount)
+    public  void operations (int option)
     {
-        if(this.balance <  amount)
-            System.out.println("Sorry your balance is less than what you want ");
-        return this.balance - amount;
+        switch (option)
+        {
+            case 1 :
+                createAccount();
+        }
     }
-    public boolean checkIfCustomerExists(int id )
-    {
-        return this.id == id;
-    }
-    public void UpdateCustomerName(String name)
-    {
-        this.name = name ;
-        System.out.println("updated");
-    }
-    public void UpdateCustomerPhone(String phone)
-    {
-        this.phone = phone ;
-        System.out.println("updated");
-    }
-    public void UpdateCustomerAddress(String address)
-    {
-        this.address = address ;
-        System.out.println("updated");
-    }
-    public int deposit (int amount)
-    {
-        return this.balance + amount ;
-    }
+
 }

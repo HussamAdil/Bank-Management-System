@@ -19,14 +19,16 @@ public class ConsoleController {
     }
     public static int getOption()
     {
+        int option =  0 ;
         Scanner scanner = new Scanner(System.in);
         try {
-            int option = scanner.nextInt();
-            System.out.println(option);
-        }catch(InputMismatchException e )
+              option = scanner.nextInt();
+
+         }catch(InputMismatchException e )
         {
             System.out.println("Sorry !");
         }
-        return 0 ;
+        return option;
     }
+
 }
