@@ -36,7 +36,7 @@ public class  Bank {
             System.out.println(" New Customer Created by Id " + id);
         }catch(InputMismatchException e )
         {
-            System.out.println("Sorry !");
+            System.out.println("Sorry input mismatch !");
         }
     }
     public  void operations (int option)

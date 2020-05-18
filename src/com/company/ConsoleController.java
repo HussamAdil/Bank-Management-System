@@ -1,14 +1,13 @@
 package com.company;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleController {
     public static void showMenu()
     {
-        System.out.println(" ######################### ");
-        System.out.println(" Welcome To Hussam Bank ");
-        System.out.println(" ######################### ");
+        System.out.println(" ------------------------ ");
+        System.out.println(" [  Welcome Dear Customer ] ");
+        System.out.println(" ------------------------ ");
         System.out.println(" Select from the menu :  ");
         System.out.println(" 1 - Create new account.");
         System.out.println(" 2 - Update information of exiting account.");
@@ -23,7 +22,6 @@ public class ConsoleController {
         Scanner scanner = new Scanner(System.in);
         try {
               option = scanner.nextInt();
-
          }catch(InputMismatchException e )
         {
             System.out.println("Sorry !");
