@@ -4,30 +4,32 @@ import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class  Bank {
-    private String name;
+public class  Bank implements BankingServices  {
+    private String name ;
+    private String address ;
+    private String phone ;
+    public int balance ;
+    private String  bankName;
+    Connection dbconnection;
     public Scanner scanner = new Scanner(System.in);
     String connectionUrl = "jdbc:mysql://127.0.0.1:3306/bankCustomer";
-
-
-    public Bank(String name )  {
-        setName(name);
+    
+    public Bank(String bankName )  {
+        setBankName(bankName);
     }
 
-    public String getName() {
-        return name;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
     public void createAccount()
     {
          try {
-            //  int id , String name , String address , String phone,int balance
-             System.out.println("Enter account  Id ? ");
-            int id = scanner.nextInt();
-            System.out.println("Enter customer name  ? ");
+          // String name , String address , String phone,int balance
+             System.out.println("Enter customer name  ? ");
             String name = scanner.next();
             System.out.println("Enter customer address  ? ");
             String address = scanner.next();
@@ -35,32 +37,28 @@ public class  Bank {
             String phone = scanner.next();
             System.out.println("Enter customer balance  ? ");
             int balance = scanner.nextInt();
-
-             Connection dbconnection;
-
              {
                  try {
                      dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
                      // create a statement object to send to database
-                     Statement statement = dbconnection.createStatement();
-
                      String insertQuery = "insert into customer  (name,address,phone,balance)" + " values (?,?,?,?)";
                       PreparedStatement preparedStatement = dbconnection.prepareStatement(insertQuery);
-                      preparedStatement.setString(1,name);
+                     // prepare all data before insert it
+                     preparedStatement.setString(1,name);
                      preparedStatement.setString(2,address);
                      preparedStatement.setString(3,phone);
                      preparedStatement.setInt(4,balance);
-                     preparedStatement.executeUpdate();
+                    // return 0 if not insert it Or 1 if inserted
+                     int result = preparedStatement.executeUpdate();
                      preparedStatement.close();
-                     int result = statement.executeUpdate(insertQuery);
                      if (result == 1) {
-                         System.out.println(result);
+                         System.out.println(" New Customer Created by");
                      }
                  } catch (SQLException throwables) {
                      throwables.getStackTrace();
                  }
              }
-            System.out.println(" New Customer Created by Id " + id);
+
         }catch(InputMismatchException e )
         {
             System.out.println("Sorry input mismatch !");
@@ -72,7 +70,76 @@ public class  Bank {
         {
             case 1 :
                 createAccount();
+               break;
+            case 2 :
+                UpdateCustomerName();
         }
     }
 
+    @Override
+    public int checkBalance() {
+        return 0;
+    }
+
+    @Override
+    public int withdraw(int amount) {
+        if(this.balance <  amount)
+            System.out.println("Sorry your balance is less than what you want ");
+        return this.balance - amount;
+    }
+
+    @Override
+    public boolean checkIfCustomerExists(int id) {
+        return false;
+    }
+
+    @Override
+    public int deposit(int amount) {
+        return 0;
+    }
+
+    @Override
+    public void UpdateCustomerName( ) {
+
+        {
+
+            try {
+                // String name , String address , String phone,int balance
+                System.out.println("Enter customer id   ? ");
+                int id = scanner.nextInt();
+                System.out.println("Enter new customer name   ? ");
+                 String name = scanner.next();
+                try {
+                    dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                    // create a statement object to send to database
+                    String updateQuery = "update customer set (name) where(id)" + " value (?,?)";
+                    PreparedStatement preparedStatement = dbconnection.prepareStatement(updateQuery);
+                    // prepare all data before insert it
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setString(2, name);
+                    // return 0 if not insert it Or 1 if inserted
+                    int result = preparedStatement.executeUpdate();
+                    preparedStatement.close();
+                    if (result == 1) {
+                        System.out.println(" Customer name updated");
+                    }
+                } catch (SQLException throwables) {
+                    throwables.getStackTrace();
+                }
+            } catch (InputMismatchException e)
+            {
+                e.getMessage();
+            }
+        }
+    }
+
+    @Override
+    public void UpdateCustomerPhone() {
+
+    }
+
+    @Override
+    public void UpdateCustomerAddress() {
+
+    }
 }
