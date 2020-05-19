@@ -7,25 +7,7 @@ import java.util.Scanner;
 public class  Bank {
     private String name;
     public Scanner scanner = new Scanner(System.in);
-
     String connectionUrl = "jdbc:mysql://127.0.0.1:3306/bankCustomer";
-
-    Connection dbconnection;
-
-    {
-        try {
-            dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
-            // create a statement object to send to database
-            Statement statement = dbconnection.createStatement();
-            ResultSet result = statement.executeQuery("select * from customer");
-            while (result.next()) {
-                System.out.println(result.getString("name"));
-            }
-        } catch (SQLException throwables) {
-            throwables.getMessage();
-        }
-    }
-
 
 
     public Bank(String name )  {
@@ -53,7 +35,31 @@ public class  Bank {
             String phone = scanner.next();
             System.out.println("Enter customer balance  ? ");
             int balance = scanner.nextInt();
-            Account account = new Account(id,name,address,phone,balance);
+
+             Connection dbconnection;
+
+             {
+                 try {
+                     dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                     // create a statement object to send to database
+                     Statement statement = dbconnection.createStatement();
+
+                     String insertQuery = "insert into customer  (name,address,phone,balance)" + " values (?,?,?,?)";
+                      PreparedStatement preparedStatement = dbconnection.prepareStatement(insertQuery);
+                      preparedStatement.setString(1,name);
+                     preparedStatement.setString(2,address);
+                     preparedStatement.setString(3,phone);
+                     preparedStatement.setInt(4,balance);
+                     preparedStatement.executeUpdate();
+                     preparedStatement.close();
+                     int result = statement.executeUpdate(insertQuery);
+                     if (result == 1) {
+                         System.out.println(result);
+                     }
+                 } catch (SQLException throwables) {
+                     throwables.getStackTrace();
+                 }
+             }
             System.out.println(" New Customer Created by Id " + id);
         }catch(InputMismatchException e )
         {
