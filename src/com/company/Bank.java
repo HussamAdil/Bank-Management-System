@@ -109,9 +109,12 @@ public class  Bank implements BankingServices  {
                 // return 0 if not query compete  Or 1 if not
                 ResultSet result = preparedStatement.executeQuery();
 
-                 while (result.next())
+                 if (result.next())
                  {
                      System.out.println(" Customer found ");
+                 }else
+                 {
+                     System.out.println(" Customer not found ");
                  }
                 preparedStatement.close();
             } catch (SQLException throwables) {
