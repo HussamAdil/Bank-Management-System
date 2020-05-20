@@ -73,6 +73,10 @@ public class  Bank implements BankingServices  {
                break;
             case 2 :
                 deleteCustomer();
+                break;
+            case 3 :
+                checkIfCustomerExists();
+                break;
         }
     }
 
@@ -89,8 +93,34 @@ public class  Bank implements BankingServices  {
     }
 
     @Override
-    public boolean checkIfCustomerExists(int id) {
-        return false;
+    public void checkIfCustomerExists() {
+
+        try {
+            // int id
+            System.out.println("Enter customer id   ? ");
+            int id = scanner.nextInt();
+            try {
+                dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                // create a statement object to send to database
+                String checkQuery = "select * from customer where id = ? ";
+                PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
+                // prepare all data before insert it
+                preparedStatement.setInt(1, id);
+                // return 0 if not query compete  Or 1 if not
+                ResultSet result = preparedStatement.executeQuery();
+
+                 while (result.next())
+                 {
+                     System.out.println(" Customer found ");
+                 }
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                System.out.println(" error from database  ");
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry Input error ");
+        }
+
     }
 
     @Override
@@ -101,36 +131,6 @@ public class  Bank implements BankingServices  {
     @Override
     public void UpdateCustomerName( ) {
 
-        {
-
-            try {
-                // String name , String address , String phone,int balance
-                System.out.println("Enter customer id   ? ");
-                int id = scanner.nextInt();
-                System.out.println("Enter new customer name   ? ");
-                 String name = scanner.next();
-                try {
-                    dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
-                    // create a statement object to send to database
-                    String updateQuery = "update customer set (name) where(id)" + " value (?,?)";
-                    PreparedStatement preparedStatement = dbconnection.prepareStatement(updateQuery);
-                    // prepare all data before insert it
-                    preparedStatement.setInt(1, id);
-                    preparedStatement.setString(2, name);
-                    // return 0 if not insert it Or 1 if inserted
-                    int result = preparedStatement.executeUpdate();
-                    preparedStatement.close();
-                    if (result == 1) {
-                        System.out.println(" Customer name updated");
-                    }
-                } catch (SQLException throwables) {
-                    throwables.getStackTrace();
-                }
-            } catch (InputMismatchException e)
-            {
-                e.getMessage();
-            }
-        }
     }
 
     @Override

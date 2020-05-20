@@ -12,6 +12,7 @@ public class ConsoleController {
         System.out.println(" Select from the menu :  ");
         System.out.println(" 1 - Create new account.");
         System.out.println(" 2 - Delete Customer.");
+        System.out.println("3 -  Check If Customer Exists");
         System.out.println(" Your select  : ");
     }
     public static int getOption()
