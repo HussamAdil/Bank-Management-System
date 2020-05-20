@@ -118,7 +118,7 @@ public class  Bank implements BankingServices  {
                  }
                 preparedStatement.close();
             } catch (SQLException throwables) {
-                System.out.println(" error from database  ");
+                System.out.println(" error from database   ");
             }
         } catch (Exception e) {
             System.out.println("Sorry Input error ");
