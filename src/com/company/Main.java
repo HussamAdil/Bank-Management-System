@@ -5,18 +5,14 @@ import java.sql.*;
 public class Main<control> {
 
     public static void main(String[] args) {
-
+        // Create  Your Bank
+        Bank khartoumBank = new Bank("Khartoum") ;
         // Show Welcoming screen
-        ConsoleController.showMenu();
+        ConsoleController.showMenu(khartoumBank.getBankName());
         // Get what customer need to Throws Exception
         int option =  ConsoleController.getOption();
-        // Create  Your Bank
-        Bank KhartoumBank = new Bank("Khartoum") ;
         // Run Bank all operations depend on what customer Need
-        KhartoumBank.operations(option);
-
-
-
+        khartoumBank.operations(option);
 
     }
 }

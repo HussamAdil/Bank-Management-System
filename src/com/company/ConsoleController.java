@@ -3,18 +3,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleController {
-    public static void showMenu()
+
+    public static void showMenu(String BankName)
     {
         System.out.println(" ------------------------ ");
-        System.out.println(" [  Welcome Dear Customer ] ");
+        System.out.println("  Welcome to " + BankName + " Bank" );
         System.out.println(" ------------------------ ");
         System.out.println(" Select from the menu :  ");
         System.out.println(" 1 - Create new account.");
-        System.out.println(" 2 - Update information of exiting account.");
-        System.out.println(" 3 - Withdraw for account.");
-        System.out.println(" 4 - Check If the customer exits");
-        System.out.println(" 5 - Delete account.");
-        System.out.print(" Select : ");
+        System.out.println(" 2 - Delete Customer.");
+        System.out.println(" Your select  : ");
     }
     public static int getOption()
     {

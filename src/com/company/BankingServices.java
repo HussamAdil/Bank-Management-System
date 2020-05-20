@@ -8,4 +8,5 @@ public interface BankingServices {
     public void UpdateCustomerName();
     public void UpdateCustomerPhone();
     public void UpdateCustomerAddress();
+    public void deleteCustomer();
 }

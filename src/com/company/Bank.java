@@ -52,10 +52,10 @@ public class  Bank implements BankingServices  {
                      int result = preparedStatement.executeUpdate();
                      preparedStatement.close();
                      if (result == 1) {
-                         System.out.println(" New Customer Created by");
+                         System.out.println(" New Customer Created.");
                      }
                  } catch (SQLException throwables) {
-                     throwables.getStackTrace();
+                    System.out.println("Can not create new customer database Error ");
                  }
              }
 
@@ -72,7 +72,7 @@ public class  Bank implements BankingServices  {
                 createAccount();
                break;
             case 2 :
-                UpdateCustomerName();
+                deleteCustomer();
         }
     }
 
@@ -133,6 +133,35 @@ public class  Bank implements BankingServices  {
         }
     }
 
+    @Override
+    public void deleteCustomer() {
+        {
+
+            try {
+                // int id
+                System.out.println("Enter customer id   ? ");
+                int id = scanner.nextInt();
+                try {
+                    dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                    // create a statement object to send to database
+                    String deleteQuery  = "delete from customer  where(id) = " + "  (?)";
+                    PreparedStatement preparedStatement = dbconnection.prepareStatement(deleteQuery);
+                    // prepare all data before insert it
+                    preparedStatement.setInt(1, id);
+                     // return 0 if not query compete  Or 1 if not
+                    int result = preparedStatement.executeUpdate();
+                    preparedStatement.close();
+                    if (result == 1) {
+                        System.out.println(" Customer deleted");
+                    }
+                } catch (SQLException throwables) {
+                    System.out.println("Can't delete customer from database error ");
+                }
+            } catch (Exception e) {
+                System.out.println("Sorry Input error ");
+            }
+        }
+    }
     @Override
     public void UpdateCustomerPhone() {
 
