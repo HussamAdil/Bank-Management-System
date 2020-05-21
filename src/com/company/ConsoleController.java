@@ -29,5 +29,24 @@ public class ConsoleController {
         }
         return option;
     }
+    // reShow console screen to customer
+    public static   void reShowMenu(String BankName)
+    {
+       Bank bank =  new Bank(BankName);
+        // Show Welcoming screen
+        ConsoleController.showMenu(bank.getBankName());
+        // Get what customer need
+        int option =  ConsoleController.getOption();
+        bank.operations(option);
+    }
 
+    public static void  sleepAndReShowMenu(String bankName)  {
+        try {
+            Thread.sleep(1000);
+        }catch (InterruptedException e )
+        {
+            e.getMessage();
+        }
+        ConsoleController.reShowMenu(bankName);
+    }
 }

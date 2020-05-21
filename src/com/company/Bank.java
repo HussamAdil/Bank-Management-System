@@ -54,7 +54,7 @@ public class  Bank implements BankingServices  {
                      preparedStatement.close();
                      if (result == 1) {
                          System.out.println(" New Customer Created.");
-
+                         ConsoleController.sleepAndReShowMenu(bankName);
                      }
                  } catch (SQLException throwables) {
                     System.out.println("Can not create new customer database Error ");
@@ -117,11 +117,11 @@ public class  Bank implements BankingServices  {
                  if (result.next())
                  {
                      System.out.println(" Customer found ");
-                     Thread.sleep(1000);
-                     reShowMenu(bankName);
+                     ConsoleController.sleepAndReShowMenu(bankName);
                  }else
                  {
                      System.out.println(" Customer not found ");
+                     ConsoleController.sleepAndReShowMenu(bankName);
                  }
                 preparedStatement.close();
             } catch (SQLException throwables) {
@@ -176,16 +176,7 @@ public class  Bank implements BankingServices  {
             }
         }
     }
- // reShow console screen to customer
-    public  void reShowMenu(String BankName)
-    {
-        Bank bank = new Bank(BankName);
-        // Show Welcoming screen
-        ConsoleController.showMenu(bank.getBankName());
-        // Get what customer need
-        int option =  ConsoleController.getOption();
-        bank.operations(option);
-    }
+
     @Override
     public void UpdateCustomerPhone() {
 
