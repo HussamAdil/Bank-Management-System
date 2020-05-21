@@ -2,7 +2,7 @@
   Console application using java & Mysql.
   
 <b>Main functionality:</b>
-- Create new account.
+- Create New Customer.
 - Delete Customer.
 - Check If Customer Exists.
 - Update Customer Information.
