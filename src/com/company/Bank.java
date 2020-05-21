@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.Console;
 import java.sql.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -53,6 +54,7 @@ public class  Bank implements BankingServices  {
                      preparedStatement.close();
                      if (result == 1) {
                          System.out.println(" New Customer Created.");
+
                      }
                  } catch (SQLException throwables) {
                     System.out.println("Can not create new customer database Error ");
@@ -77,6 +79,9 @@ public class  Bank implements BankingServices  {
             case 3 :
                 checkIfCustomerExists();
                 break;
+            case 5 :
+                System.exit(0);
+                
         }
     }
 
@@ -112,6 +117,8 @@ public class  Bank implements BankingServices  {
                  if (result.next())
                  {
                      System.out.println(" Customer found ");
+                     Thread.sleep(1000);
+                     reShowMenu(bankName);
                  }else
                  {
                      System.out.println(" Customer not found ");
@@ -155,8 +162,12 @@ public class  Bank implements BankingServices  {
                     int result = preparedStatement.executeUpdate();
                     preparedStatement.close();
                     if (result == 1) {
-                        System.out.println(" Customer deleted");
-                    }
+                        System.out.println(" Customer deleted ");
+
+                     }else
+                    {
+                        System.out.println("Customer not found ");
+                     }
                 } catch (SQLException throwables) {
                     System.out.println("Can't delete customer from database error ");
                 }
@@ -164,6 +175,16 @@ public class  Bank implements BankingServices  {
                 System.out.println("Sorry Input error ");
             }
         }
+    }
+ // reShow console screen to customer
+    public  void reShowMenu(String BankName)
+    {
+        Bank bank = new Bank(BankName);
+        // Show Welcoming screen
+        ConsoleController.showMenu(bank.getBankName());
+        // Get what customer need
+        int option =  ConsoleController.getOption();
+        bank.operations(option);
     }
     @Override
     public void UpdateCustomerPhone() {

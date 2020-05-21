@@ -9,10 +9,11 @@ public class Main<control> {
         Bank khartoumBank = new Bank("Khartoum") ;
         // Show Welcoming screen
         ConsoleController.showMenu(khartoumBank.getBankName());
-        // Get what customer need to Throws Exception
+        // Get what customer need
         int option =  ConsoleController.getOption();
         // Run Bank all operations depend on what customer Need
         khartoumBank.operations(option);
 
     }
+
 }
