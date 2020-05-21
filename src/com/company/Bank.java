@@ -42,11 +42,13 @@ public class  Bank implements BankingServices  {
                 break;
             case 5 :
                 withdraw();
+                break;
+            case 6 :
+                checkBalance();
             case 7 :
                 System.exit(0);
             default:
                 System.out.println("Sorry your select is not listed ");
-
         }
     }
     public void createAccount()
@@ -90,8 +92,37 @@ public class  Bank implements BankingServices  {
         }
     }
     @Override
-    public int checkBalance() {
-        return 0;
+    public void checkBalance() {
+        try {
+            // int id
+            System.out.println("Enter customer id   ? ");
+            int id = scanner.nextInt();
+            try {
+                dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                // create a statement object to send to database
+                String checkQuery = "select * from customer where id = ? ";
+                PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
+                // prepare all data before insert it
+                preparedStatement.setInt(1, id);
+                // return 0 if not query compete  Or 1 if not
+                ResultSet result = preparedStatement.executeQuery();
+
+                if (result.next())
+                {
+                    System.out.println("Current Balance = " + result.getInt("balance"));
+                }else
+                {
+                    System.out.println(" Customer not found ");
+                    ConsoleController.sleepAndReShowMenu(bankName);
+                }
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                System.out.println(" error from database   ");
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry Input error ");
+        }
+
     }
 
     @Override
@@ -157,8 +188,6 @@ public class  Bank implements BankingServices  {
         } catch (Exception e) {
             System.out.println("Sorry Input error ");
         }
-
-
      }
 
     @Override

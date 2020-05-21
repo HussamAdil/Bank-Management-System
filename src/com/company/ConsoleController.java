@@ -12,9 +12,10 @@ public class ConsoleController {
         System.out.println(" Select from the menu :  ");
         System.out.println(" 1 - Create new account.");
         System.out.println(" 2 - Delete Customer.");
-        System.out.println(" 3 - Check If Customer Exists");
+        System.out.println(" 3 - Check If Customer Exists.");
         System.out.println(" 4 - Update Customer Information ");
         System.out.println(" 5 - Withdraw  ");
+        System.out.println(" 6 - Check Customer Balance ");
         System.out.println(" 7 - Exit");
         System.out.println(" Your select  : ");
     }
