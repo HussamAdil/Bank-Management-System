@@ -14,7 +14,8 @@ public class ConsoleController {
         System.out.println(" 2 - Delete Customer.");
         System.out.println(" 3 - Check If Customer Exists");
         System.out.println(" 4 - Update Customer Information ");
-        System.out.println(" 5 - Exit");
+        System.out.println(" 5 - Withdraw  ");
+        System.out.println(" 7 - Exit");
         System.out.println(" Your select  : ");
     }
     public static int getOption()
@@ -25,11 +26,11 @@ public class ConsoleController {
               option = scanner.nextInt();
          }catch(InputMismatchException e )
         {
-            System.out.println("Sorry !");
+            System.out.println("Sorry input mismatch!");
         }
         return option;
     }
-    // reShow console screen to customer
+    // reshow console screen to customer
     public static   void reShowMenu(String BankName)
     {
        Bank bank =  new Bank(BankName);
