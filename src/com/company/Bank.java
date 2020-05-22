@@ -40,13 +40,17 @@ public class  Bank implements BankingServices  {
             case 3 :
                 checkIfCustomerExists();
                 break;
+            case 4 :
+                updateCustomerInformation();
             case 5 :
                 withdraw();
                 break;
             case 6 :
                 checkBalance();
+                break;
             case 7 :
                 System.exit(0);
+                break;
             default:
                 System.out.println("Sorry your select is not listed ");
         }
@@ -232,11 +236,6 @@ public class  Bank implements BankingServices  {
     }
 
     @Override
-    public void UpdateCustomerName( ) {
-
-    }
-
-    @Override
     public void deleteCustomer() {
         {
 
@@ -271,12 +270,46 @@ public class  Bank implements BankingServices  {
     }
 
     @Override
-    public void UpdateCustomerPhone() {
+    public void updateCustomerInformation()
+    {
+        System.out.println(" 1 - Update Customer Name ");
+        System.out.println(" 2 - Update Customer Address.");
+        System.out.println(" 3 - Update Customer Phone.");
+        System.out.println(" 4 - Exit.");
+    }
+    public  void updateCustomerInformationOperations (int option) {
+        switch (option)
+        {
+            case 1:
+            updateCustomerName();
+            break;
+            case 2:
+                updateCustomerAddress();
+                break;
+            case 3 :
+                updateCustomerPhone();
+                break;
+            case 4 :
+                System.exit(0);
+            default:
+                System.out.println("Sorry your select is not listed ");
+        }
+    }
+    @Override
+    public void updateCustomerName() {
 
     }
 
     @Override
-    public void UpdateCustomerAddress() {
+    public void updateCustomerPhone() {
 
     }
+
+    @Override
+    public void updateCustomerAddress() {
+
+    }
+
+
+
 }
