@@ -42,6 +42,7 @@ public class  Bank implements BankingServices  {
                 break;
             case 4 :
                 updateCustomerInformation();
+                break;
             case 5 :
                 withdraw();
                 break;
@@ -276,6 +277,9 @@ public class  Bank implements BankingServices  {
         System.out.println(" 2 - Update Customer Address.");
         System.out.println(" 3 - Update Customer Phone.");
         System.out.println(" 4 - Exit.");
+        System.out.println(" Your select  : ");
+        int option =  ConsoleController.getOption();
+        this.updateCustomerInformationOperations(option);
     }
     public  void updateCustomerInformationOperations (int option) {
         switch (option)
@@ -297,7 +301,7 @@ public class  Bank implements BankingServices  {
     }
     @Override
     public void updateCustomerName() {
-
+    System.out.println("here");
     }
 
     @Override

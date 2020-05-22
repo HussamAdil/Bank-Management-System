@@ -11,9 +11,8 @@ public class Main<control> {
         ConsoleController.showMenu(khartoumBank.getBankName());
         // Get what customer need
         int option =  ConsoleController.getOption();
-        // Run Bank all operations depend on what customer Need
+         // Run Bank all operations depend on what customer Need
         khartoumBank.operations(option);
-
-    }
+     }
 
 }
