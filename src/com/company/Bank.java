@@ -300,8 +300,68 @@ public class  Bank implements BankingServices  {
         }
     }
     @Override
-    public void updateCustomerName() {
-    System.out.println("here");
+    public void updateCustomerName()  {
+        String pname ;
+
+        try {
+            // int customer id
+            System.out.println("Enter customer id   ? ");
+            int id = scanner.nextInt();
+            try {
+                dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                // create a statement object to send to database
+                String checkQuery = "select * from customer where id = ? ";
+                PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
+                // prepare all data before insert it
+                preparedStatement.setInt(1, id);
+                // return 0 if not query compete  Or 1 if not
+                ResultSet result = preparedStatement.executeQuery();
+
+                if (result.next())
+                {
+                    System.out.println("Current Balance = " + result.getInt("balance"));
+                    int balance = result.getInt("balance");
+                    //ConsoleController.sleepAndReShowMenu(bankName);
+                    System.out.println("Enter what amount you want ?");
+                    amount = scanner.nextInt();
+                    if(balance <  amount)
+                        System.out.println("Sorry your balance is less than what you want ");
+                    else
+                    {
+                        try {
+                            dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                            // create a statement object to send to database
+                            String updateQuery = "update customer set balance = ? where id = ? ";
+                            preparedStatement = dbconnection.prepareStatement(updateQuery);
+                            // prepare all data before insert it
+                            int newBalance  = balance - amount ;
+                            preparedStatement.setInt(1,newBalance);
+                            preparedStatement.setInt(2, id);
+
+                            int  updateResult = preparedStatement.executeUpdate();
+                            // return 0 if not query compete  Or 1 if not
+                            if (updateResult == 1)
+                            {
+                                System.out.println("withdraw completed ");
+                                System.out.println("Your new Balance =  " + newBalance);
+                            }
+                        }catch (SQLException throwables) {
+                            System.out.println(" error from database from update withdraw  ");
+                        }
+
+                    }
+                }else
+                {
+                    System.out.println(" Customer not found ");
+                    ConsoleController.sleepAndReShowMenu(bankName);
+                }
+                preparedStatement.close();
+            } catch (SQLException throwables) {
+                System.out.println(" error from database   ");
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry Input error ");
+        }
     }
 
     @Override
