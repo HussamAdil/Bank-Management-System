@@ -363,9 +363,9 @@ public class  Bank implements BankingServices  {
                 System.out.println("Sorry your select is not listed ");
         }
     }
+
     @Override
     public void updateCustomerName()  {
-
 
         try {
             // int customer id
@@ -406,7 +406,6 @@ public class  Bank implements BankingServices  {
                         }catch (SQLException throwables) {
                             System.out.println(" error from database from update update customer name  ");
                         }
-
 
                 }else
                 {
@@ -465,7 +464,6 @@ public class  Bank implements BankingServices  {
                             System.out.println(" error from database from update update customer phone  ");
                         }
 
-
                     }else
                     {
                         System.out.println(" Customer not found ");
@@ -523,7 +521,6 @@ public class  Bank implements BankingServices  {
                         System.out.println(" error from database from update update customer address  ");
                     }
 
-
                 }else
                 {
                     System.out.println(" Customer not found ");
@@ -537,7 +534,4 @@ public class  Bank implements BankingServices  {
             System.out.println("Sorry Input error ");
         }
     }
-
-
-
 }
