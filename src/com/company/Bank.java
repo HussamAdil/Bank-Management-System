@@ -50,6 +50,9 @@ public class  Bank implements BankingServices  {
                 checkBalance();
                 break;
             case 7 :
+                deposit();
+                break;
+            case 8 :
                 System.exit(0);
                 break;
             default:
@@ -232,8 +235,69 @@ public class  Bank implements BankingServices  {
     }
 
     @Override
-    public int deposit(int amount) {
-        return 0;
+    public void deposit() {
+        {
+            int amount = 0 ;
+
+            try {
+                // int id
+                System.out.println("Enter customer id   ? ");
+                int id = scanner.nextInt();
+                try {
+                    dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                    // create a statement object to send to database
+                    String checkQuery = "select * from customer where id = ? ";
+                    PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
+                    // prepare all data before insert it
+                    preparedStatement.setInt(1, id);
+                    // return 0 if not query compete  Or 1 if not
+                    ResultSet result = preparedStatement.executeQuery();
+
+                    if (result.next())
+                    {
+                        System.out.println("Current Balance = " + result.getInt("balance"));
+                        int balance = result.getInt("balance");
+                        //ConsoleController.sleepAndReShowMenu(bankName);
+                        System.out.println("Enter what amount you want to deposit ?");
+                        amount = scanner.nextInt();
+                            if (amount <=  0)
+                            {
+                                System.out.println("Sorry You can't deposit that number");
+                            }
+                            try {
+                                dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                                // create a statement object to send to database
+                                String updateQuery = "update customer set balance = ? where id = ? ";
+                                preparedStatement = dbconnection.prepareStatement(updateQuery);
+                                // prepare all data before insert it
+                                int newBalance  = balance + amount ;
+                                preparedStatement.setInt(1,newBalance);
+                                preparedStatement.setInt(2, id);
+
+                                int  updateResult = preparedStatement.executeUpdate();
+                                // return 0 if not query compete  Or 1 if not
+                                if (updateResult == 1)
+                                {
+                                    System.out.println("deposit completed ");
+                                    System.out.println("Your new Balance =  " + newBalance);
+                                }
+                            }catch (SQLException throwables) {
+                                System.out.println(" error from database from update deposit  ");
+                            }
+
+                    }else
+                    {
+                        System.out.println(" Customer not found ");
+                        ConsoleController.sleepAndReShowMenu(bankName);
+                    }
+                    preparedStatement.close();
+                } catch (SQLException throwables) {
+                    System.out.println(" error from database   ");
+                }
+            } catch (Exception e) {
+                System.out.println("Sorry Input error ");
+            }
+        }
     }
 
     @Override

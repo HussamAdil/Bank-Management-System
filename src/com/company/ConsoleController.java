@@ -16,7 +16,8 @@ public class ConsoleController {
         System.out.println(" 4 - Update Customer Information ");
         System.out.println(" 5 - Withdraw  ");
         System.out.println(" 6 - Check Customer Balance ");
-        System.out.println(" 7 - Exit");
+        System.out.println(" 7 - Deposit");
+        System.out.println(" 8 - Exit");
         System.out.println(" Your select  : ");
     }
     public static int getOption()
