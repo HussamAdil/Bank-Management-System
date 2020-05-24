@@ -199,38 +199,23 @@ public class  Bank implements BankingServices  {
      }
 
     @Override
-    public void checkIfCustomerExists() {
+    public void checkIfCustomerExists()  {
 
-        try {
-            // int id
             System.out.println("Enter customer id   ? ");
             int id = scanner.nextInt();
-            try {
-                dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
-                // create a statement object to send to database
-                String checkQuery = "select * from customer where id = ? ";
-                PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
-                // prepare all data before insert it
-                preparedStatement.setInt(1, id);
-                // return 0 if not query compete  Or 1 if not
-                ResultSet result = preparedStatement.executeQuery();
 
-                 if (result.next())
-                 {
-                     System.out.println(" Customer found ");
-                     ConsoleController.sleepAndReShowMenu(bankName);
-                 }else
-                 {
-                     System.out.println(" Customer not found ");
-                     ConsoleController.sleepAndReShowMenu(bankName);
-                 }
-                preparedStatement.close();
-            } catch (SQLException throwables) {
-                System.out.println(" error from database   ");
+            try {
+                if (!checkIfUserExists(id)) {
+                    System.out.println(" Customer not found ");
+                    ConsoleController.sleepAndReShowMenu(bankName);
+                } else {
+                    System.out.println(" Customer found ");
+                    ConsoleController.sleepAndReShowMenu(bankName);
+                }
+            }catch (Exception e)
+            {
+                e.getMessage();
             }
-        } catch (Exception e) {
-            System.out.println("Sorry Input error ");
-        }
 
     }
 
@@ -244,53 +229,47 @@ public class  Bank implements BankingServices  {
                 System.out.println("Enter customer id   ? ");
                 int id = scanner.nextInt();
                 try {
-                    dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
-                    // create a statement object to send to database
-                    String checkQuery = "select * from customer where id = ? ";
-                    PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
-                    // prepare all data before insert it
-                    preparedStatement.setInt(1, id);
-                    // return 0 if not query compete  Or 1 if not
-                    ResultSet result = preparedStatement.executeQuery();
 
-                    if (result.next())
+                    if (getCustomerFullInformation(id) == null)
                     {
+                        System.out.println(" Customer not found ");
+                        ConsoleController.sleepAndReShowMenu(bankName);
+
+                    }else
+                    {
+
+                        ResultSet result = getCustomerFullInformation(id);
                         System.out.println("Current Balance = " + result.getInt("balance"));
                         int balance = result.getInt("balance");
                         //ConsoleController.sleepAndReShowMenu(bankName);
                         System.out.println("Enter what amount you want to deposit ?");
                         amount = scanner.nextInt();
-                            if (amount <=  0)
+                        if (amount <=  0)
+                        {
+                            System.out.println("Sorry You can't deposit that number");
+                        }
+                        try {
+                            dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+                            // create a statement object to send to database
+                            String updateQuery = "update customer set balance = ? where id = ? ";
+                            PreparedStatement  preparedStatement = dbconnection.prepareStatement(updateQuery);
+                            // prepare all data before insert it
+                            int newBalance  = balance + amount ;
+                            preparedStatement.setInt(1,newBalance);
+                            preparedStatement.setInt(2, id);
+
+                            int  updateResult = preparedStatement.executeUpdate();
+                            // return 0 if not query compete  Or 1 if not
+                            if (updateResult == 1)
                             {
-                                System.out.println("Sorry You can't deposit that number");
+                                System.out.println("deposit completed ");
+                                System.out.println("Your new Balance =  " + newBalance);
                             }
-                            try {
-                                dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
-                                // create a statement object to send to database
-                                String updateQuery = "update customer set balance = ? where id = ? ";
-                                preparedStatement = dbconnection.prepareStatement(updateQuery);
-                                // prepare all data before insert it
-                                int newBalance  = balance + amount ;
-                                preparedStatement.setInt(1,newBalance);
-                                preparedStatement.setInt(2, id);
-
-                                int  updateResult = preparedStatement.executeUpdate();
-                                // return 0 if not query compete  Or 1 if not
-                                if (updateResult == 1)
-                                {
-                                    System.out.println("deposit completed ");
-                                    System.out.println("Your new Balance =  " + newBalance);
-                                }
-                            }catch (SQLException throwables) {
-                                System.out.println(" error from database from update deposit  ");
-                            }
-
-                    }else
-                    {
-                        System.out.println(" Customer not found ");
-                        ConsoleController.sleepAndReShowMenu(bankName);
+                        }catch (SQLException throwables) {
+                            System.out.println(" error from database from update deposit  ");
+                        }
                     }
-                    preparedStatement.close();
+
                 } catch (SQLException throwables) {
                     System.out.println(" error from database   ");
                 }
@@ -309,6 +288,7 @@ public class  Bank implements BankingServices  {
                 System.out.println("Enter customer id   ? ");
                 int id = scanner.nextInt();
                 try {
+                    checkIfUserExists(id);
                     dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
                     // create a statement object to send to database
                     String deleteQuery  = "delete from customer  where(id) = " + "  (?)";
@@ -533,5 +513,40 @@ public class  Bank implements BankingServices  {
         } catch (Exception e) {
             System.out.println("Sorry Input error ");
         }
+    }
+    public boolean checkIfUserExists(int id) throws Exception
+    {
+        boolean isUserExists = false;
+        dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+        // create a statement object to send to database
+        String checkQuery = "select * from customer where id = ? ";
+        PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
+        // prepare all data before insert it
+        preparedStatement.setInt(1, id);
+        // return 0 if not query compete  Or 1 if not
+        ResultSet result = preparedStatement.executeQuery();
+        if(result.next())
+        {
+            isUserExists = true;
+        }
+    return isUserExists;
+    }
+
+    public ResultSet getCustomerFullInformation(int id) throws Exception
+    {
+        ResultSet resultSet =null ;
+        dbconnection = DriverManager.getConnection(connectionUrl, "root", "");
+        // create a statement object to send to database
+        String checkQuery = "select * from customer where id = ? ";
+        PreparedStatement preparedStatement = dbconnection.prepareStatement(checkQuery);
+        // prepare all data before insert it
+        preparedStatement.setInt(1, id);
+        // return 0 if not query compete  Or 1 if not
+        ResultSet result = preparedStatement.executeQuery();
+        if(result.next())
+        {
+            resultSet = result;
+        }
+        return resultSet;
     }
 }
