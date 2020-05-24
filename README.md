@@ -8,3 +8,7 @@
 - Update Customer Information.
 - Withdraw.
 - Check Customer Balance.
+- Deposit
+ <b> Install and Try </b>:
+ 1- make sure you install java on your system + Mysql 
+ - change config file for database 
