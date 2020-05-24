@@ -11,5 +11,6 @@
 - Deposit.
 
  <b> how to install  </b>:
- 1- make sure you install java on your system + Mysql 
- - change config file for database 
+ 
+ 1 - make sure you install java on your system + Mysql 
+ 2 - change config file for database 
