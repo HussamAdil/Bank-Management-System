@@ -200,23 +200,21 @@ public class  Bank implements BankingServices  {
 
     @Override
     public void checkIfCustomerExists()  {
-
             System.out.println("Enter customer id   ? ");
             int id = scanner.nextInt();
-
             try {
-                if (!checkIfUserExists(id)) {
-                    System.out.println(" Customer not found ");
-                    ConsoleController.sleepAndReShowMenu(bankName);
-                } else {
+                if (checkIfUserExists(id)) {
                     System.out.println(" Customer found ");
-                    ConsoleController.sleepAndReShowMenu(bankName);
+                }else
+                {
+                    System.out.println(" Customer not found ");
                 }
+                ConsoleController.sleepAndReShowMenu(bankName);
+
             }catch (Exception e)
             {
                 e.getMessage();
             }
-
     }
 
     @Override
